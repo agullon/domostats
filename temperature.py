@@ -25,11 +25,11 @@ def getElement(element=''):
 def temperature_status(room):
     sensorsResponse = getElement("sensors")
     if (room == MAIN_ROOM):
-        currentTemp = str(sensorsResponse['14']['state']['temperature']/100) + 'ºC'
-        return "Dormitorio: " + currentTemp
+        currentTemp = round(sensorsResponse['14']['state']['temperature']/100 - 1.5,2)
+        return "Dormitorio: " + str(currentTemp) + 'ºC'
     elif(room == HALL):
-        currentTemp = str(sensorsResponse['5']['state']['temperature']/100) + 'ºC'
-        return "Entrada: " + currentTemp
+        currentTemp = round(sensorsResponse['5']['state']['temperature']/100 + 1.0,2)
+        return "Entrada: " + str(currentTemp) + 'ºC'
 
 def start():
     set_endpoint()
