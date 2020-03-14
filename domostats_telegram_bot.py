@@ -11,10 +11,6 @@ def set_base_url():
     bot_token = config.get('telegram', 'domostats.bot')
     BASE_URL = 'https://api.telegram.org/bot{}/'.format(bot_token)  
 
-def get_base_url():
-    global BASE_URL
-    return BASE_URL
-
 def get_url(url): 
     response = requests.get(url)
     content = response.content.decode("utf8")
@@ -22,7 +18,7 @@ def get_url(url):
 
 
 def get_updates(offset=None):
-    url = get_base_url() + "getUpdates"
+    url = BASE_URL + "getUpdates"
     if offset:
         url += "?offset={}".format(offset)
     content = get_url(url)
@@ -48,7 +44,7 @@ def inline_keyboard():
 
 def send_message(text, chat_id, reply_markup=None):
     text = quote_plus(text)
-    url = get_base_url() + "sendMessage?text={}&chat_id={}&parse_mode=Markdown".format(text, chat_id)
+    url = BASE_URL + "sendMessage?text={}&chat_id={}&parse_mode=Markdown".format(text, chat_id)
     if reply_markup:
         url += "&reply_markup={}".format(reply_markup)
     get_url(url)
@@ -67,14 +63,14 @@ def get_text_and_chat_id(update):
 def handle_updates(updates):
     for update in updates["result"]:
         text, chat_id = get_text_and_chat_id(update)
-        if text == temperature.HALL or text == temperature.MAIN_ROOM:
+        if text == temperature.KITCHEN or text == temperature.MAIN_ROOM:
             send_message(temperature.temperature_status(text), chat_id)
-        send_message("Elige un lugar", chat_id, inline_keyboard())
+        send_message("Elige un lugar:", chat_id, inline_keyboard())
 
 
 def main():
     set_base_url()
-    temperature.start()
+    temperature.set_endpoint()
     last_update_id = None
     updates = get_updates()
     if len(updates["result"]) > 0:

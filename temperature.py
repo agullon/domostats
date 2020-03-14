@@ -2,6 +2,7 @@ import requests, json, time, configparser
 
 KITCHEN = 'cocina'
 MAIN_ROOM = 'dormitorio'
+endpoint = ''
 
 def set_endpoint():
     global endpoint
@@ -29,13 +30,10 @@ def temperature_status(room):
         return "Dormitorio: " + str(currentTemp) + 'ºC'
     elif(room == KITCHEN):
         currentTemp = round(sensorsResponse['5']['state']['temperature']/100 + 1.0,2)
-        return "Cocina:     " + str(currentTemp) + 'ºC'
-
-def start():
-    set_endpoint()
+        return "Cocina: " + str(currentTemp) + 'ºC'
 
 def main():
-    start()
+    set_endpoint()
     print(temperature_status(KITCHEN))
     print(temperature_status(MAIN_ROOM))
 
