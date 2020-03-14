@@ -39,7 +39,7 @@ def get_last_update_id(updates):
 def inline_keyboard():
     reply_markup = {
         "inline_keyboard": [
-        [{"text":temperature.HALL,"callback_data":temperature.HALL},
+        [{"text":temperature.KITCHEN,"callback_data":temperature.KITCHEN},
          {"text":temperature.MAIN_ROOM,"callback_data":temperature.MAIN_ROOM}]
        ]
     }
