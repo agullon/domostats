@@ -1,6 +1,6 @@
 import json, requests, time, urllib, configparser
 from urllib.parse import quote_plus
-import temperature
+import temperature, hue_requests, stats, domostats
 
 BASE_URL = ''
 
@@ -32,7 +32,7 @@ def get_last_update_id(updates):
     return max(update_ids)
 
 
-def inline_keyboard():
+def rooms_keyboard():
     reply_markup = {
         "inline_keyboard": [
         [{"text":temperature.KITCHEN,"callback_data":temperature.KITCHEN},
@@ -41,13 +41,30 @@ def inline_keyboard():
     }
     return json.dumps(reply_markup)
 
+def single_button_keyboard():
+    reply_markup = {
+        "inline_keyboard": [
+        [{"text":"Toda la info","callback_data":"toda la info"}]
+       ]
+    }
+    return json.dumps(reply_markup)
+
 
 def send_message(text, chat_id, reply_markup=None):
-    text = quote_plus(text)
-    url = BASE_URL + "sendMessage?text={}&chat_id={}&parse_mode=Markdown".format(text, chat_id)
+    url = BASE_URL + 'sendMessage'
+    url += '?text={}'.format(quote_plus(text))
+    url += '&chat_id={}'.format(chat_id)
+    url += '&parse_mode=Markdown'
     if reply_markup:
         url += "&reply_markup={}".format(reply_markup)
-    get_url(url)
+    r = requests.get(url)
+
+
+def send_image(photo, chat_id):
+    url = BASE_URL + 'sendPhoto'
+    files = {'photo':photo}
+    data = {'chat_id':chat_id}
+    r = requests.post(url, files=files, data=data)
 
 
 def get_text_and_chat_id(update):
@@ -63,14 +80,17 @@ def get_text_and_chat_id(update):
 def handle_updates(updates):
     for update in updates["result"]:
         text, chat_id = get_text_and_chat_id(update)
-        if text == temperature.KITCHEN or text == temperature.MAIN_ROOM:
-            send_message(temperature.temperature_status(text), chat_id)
-        send_message("Elige un lugar:", chat_id, inline_keyboard())
+        if text == domostats.KITCHEN or text == domostats.BEDROOM:
+            send_message(temperature.room_status(text), chat_id)
+        #else:
+            #send_message(temperature.all_info(), chat_id)    
+        send_message("", chat_id, single_button_keyboard())
+        send_image(stats.plot_temp(), chat_id)
 
 
 def main():
     set_base_url()
-    temperature.set_endpoint()
+    hue_requests.set_endpoint()
     last_update_id = None
     updates = get_updates()
     if len(updates["result"]) > 0:
