@@ -16,7 +16,6 @@ def get_url(url):
     content = response.content.decode("utf8")
     return content
 
-
 def get_updates(offset=None):
     url = BASE_URL + "getUpdates"
     if offset:
@@ -24,19 +23,19 @@ def get_updates(offset=None):
     content = get_url(url)
     return json.loads(content)
 
-
 def get_last_update_id(updates):
     update_ids = []
     for update in updates["result"]:
         update_ids.append(int(update["update_id"]))
     return max(update_ids)
 
-
 def rooms_keyboard():
     reply_markup = {
         "inline_keyboard": [
-        [{"text":temperature.KITCHEN,"callback_data":temperature.KITCHEN},
-         {"text":temperature.MAIN_ROOM,"callback_data":temperature.MAIN_ROOM}]
+        [{'text':domostats.spanish_name[domostats.KITCHEN],'callback_data':domostats.KITCHEN},
+         {'text':domostats.spanish_name[domostats.BEDROOM],'callback_data':domostats.BEDROOM},
+         {'text':'todas',"callback_data":'todas'},
+         {'text':'histórico','callback_data':'histórico'}]
        ]
     }
     return json.dumps(reply_markup)
@@ -49,7 +48,6 @@ def single_button_keyboard():
     }
     return json.dumps(reply_markup)
 
-
 def send_message(text, chat_id, reply_markup=None):
     url = BASE_URL + 'sendMessage'
     url += '?text={}'.format(quote_plus(text))
@@ -59,13 +57,11 @@ def send_message(text, chat_id, reply_markup=None):
         url += "&reply_markup={}".format(reply_markup)
     r = requests.get(url)
 
-
 def send_image(photo, chat_id):
     url = BASE_URL + 'sendPhoto'
     files = {'photo':photo}
     data = {'chat_id':chat_id}
     r = requests.post(url, files=files, data=data)
-
 
 def get_text_and_chat_id(update):
     if "message" in update:
@@ -76,29 +72,29 @@ def get_text_and_chat_id(update):
         chat_id = update["callback_query"]["message"]["chat"]["id"]
     return text, chat_id
 
-
 def handle_updates(updates):
-    for update in updates["result"]:
+    for update in updates['result']:
         text, chat_id = get_text_and_chat_id(update)
         if text == domostats.KITCHEN or text == domostats.BEDROOM:
             send_message(temperature.room_status(text), chat_id)
-        #else:
-            #send_message(temperature.all_info(), chat_id)    
-        send_message("", chat_id, single_button_keyboard())
-        send_image(stats.get_plot_png(), chat_id)
-
+        elif text == 'todas':
+            send_message(temperature.all_rooms(), chat_id)
+        elif text == 'histórico':
+            send_message('Temperatura en la cocina:', chat_id)
+            send_image(stats.get_plot_png(), chat_id)
+        send_message('Elige una opción:', chat_id, rooms_keyboard())
 
 def main():
     set_base_url()
     hue_requests.set_endpoint()
     last_update_id = None
     updates = get_updates()
-    if len(updates["result"]) > 0:
+    if len(updates['result']) > 0:
         last_update_id = get_last_update_id(updates) + 1
         get_updates(last_update_id)
     while True:
         updates = get_updates(last_update_id)
-        if len(updates["result"]) > 0:
+        if len(updates['result']) > 0:
             last_update_id = get_last_update_id(updates) + 1
             handle_updates(updates)
         time.sleep(0.5)
