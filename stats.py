@@ -1,6 +1,7 @@
 import temperature, domostats
 import database as db
 import numpy as np
+import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import matplotlib.cbook as cbook
@@ -24,10 +25,12 @@ def plot_temperature():
     y = y_cord
     x = [datetime.datetime.strptime(d,'%Y-%m-%dT%H:%M:%S') for d in x_cord]
 
+    matplotlib.use('Agg')
+
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%H:%M'))
     plt.gca().xaxis.set_major_locator(mdates.HourLocator())
 
-    plt.ylim(ymin=0, ymax=max(y)+2)
+    plt.ylim(ymin=min(y)-2, ymax=max(y)+2)
 
     plt.plot(x,y)
     plt.gcf().autofmt_xdate()
