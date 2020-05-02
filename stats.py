@@ -27,6 +27,8 @@ def plot_temperature():
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%H:%M'))
     plt.gca().xaxis.set_major_locator(mdates.HourLocator())
 
+    plt.ylim(ymin=0, ymax=max(y)+2)
+
     plt.plot(x,y)
     plt.gcf().autofmt_xdate()
     return plt
