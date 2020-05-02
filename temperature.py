@@ -10,12 +10,12 @@ def get_room_info(room):
     resp = hue_requests.get('sensors/' + domostats.sensor_id[room])
     temperature = round(resp['state']['temperature']/100 + TEMP_OFFSET[room],2)
     time_hue = resp['state']['lastupdated'] 
-    time_str = utils.format_date(time_hue)
+    time_str = utils.format_date(time_hue, '%Y-%m-%dT%H:%M:%S')
     return temperature, time_str
 
 def print_room_status(room):
     temperature, time = get_room_info(room)
-    return print(domostats.spanish_name[room] + ' {:.2f}ºC '.format(temperature) + time)
+    return print(domostats.spanish_name[room] + ' {:.2f}ºC '.format(temperature) + utils.format_date(time))
 
 def print_all_info():
     print_room_status(domostats.KITCHEN)
