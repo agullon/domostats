@@ -85,7 +85,7 @@ def handle_updates(updates):
         #else:
             #send_message(temperature.all_info(), chat_id)    
         send_message("", chat_id, single_button_keyboard())
-        send_image(stats.plot_temp(), chat_id)
+        send_image(stats.get_plot_png(), chat_id)
 
 
 def main():

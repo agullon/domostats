@@ -8,11 +8,11 @@ import datetime
 import io
 from PIL import Image
 
-def save_temp(room):
+def save_temperature(room):
     temp, time = temperature.get_room_info(room)
     db.add_temperature(room, temp, time)
 
-def plot_temp():
+def plot_temperature():
     y_cord = []
     x_cord = []
 
@@ -29,9 +29,15 @@ def plot_temp():
 
     plt.plot(x,y)
     plt.gcf().autofmt_xdate()
-    #plt.show()
+    return plt
 
+def get_plot_png():
+    plt = plot_temperature()
     buf = io.BytesIO()
     plt.savefig(buf, format='png')
     buf.seek(0)
     return buf.getvalue()
+
+if __name__ == '__main__':
+    plt = plot_temperature()
+    plt.show()

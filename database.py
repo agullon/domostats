@@ -2,9 +2,10 @@ import sqlite3, datetime
 import temperature, domostats, hue_requests
 
 db = None
+DATABASE_NAME = 'domostats.db'
 
 def create_temperature_table():
-      db = sqlite3.connect('test.db')
+      db = sqlite3.connect(DATABASE_NAME)
       db.execute('''
             CREATE TABLE
             IF NOT EXISTS
@@ -18,7 +19,7 @@ def create_temperature_table():
       db.close()
 
 def insert_temperature_table(room, temp, date):
-      db = sqlite3.connect('test.db')
+      db = sqlite3.connect(DATABASE_NAME)
       db.execute('''
                   INSERT INTO TEMPERATURE (ROOM,TEMP,DATE)
                   VALUES ("'''+room+'''",'''+str(temp)+''',"'''+date+'''")
@@ -35,7 +36,7 @@ def add_temperature(room, temp, date):
       insert_temperature_table(room, temp, date)
 
 def print_db_last_rows(num_rows=-1):
-      db = sqlite3.connect('test.db')
+      db = sqlite3.connect(DATABASE_NAME)
       cursor = db.execute('''
             SELECT * from TEMPERATURE 
             ORDER BY DATE DESC
@@ -48,7 +49,7 @@ def print_db_last_rows(num_rows=-1):
 def read_temperature(hours=24, room='%'):
       date = datetime.datetime.now() - datetime.timedelta(hours=hours)
       try:
-            db = sqlite3.connect('test.db')
+            db = sqlite3.connect(DATABASE_NAME)
             cursor = db.execute('\
                   SELECT * from TEMPERATURE \
                   WHERE date > "{}" \
