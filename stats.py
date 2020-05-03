@@ -2,6 +2,7 @@ import temperature, domostats
 import database as db
 import numpy as np
 import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import matplotlib.cbook as cbook
@@ -49,7 +50,6 @@ def plot_temperature():
     return plt
 
 def get_plot_png():
-    matplotlib.use('Agg')
     plt = plot_temperature()
     buf = io.BytesIO()
     plt.savefig(buf, format='png')

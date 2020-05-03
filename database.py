@@ -1,5 +1,5 @@
 import sqlite3, datetime 
-import temperature, domostats, hue_requests
+import temperature, domostats, hue_requests, utils
 
 db = None
 DATABASE_NAME = 'domostats.db'
@@ -47,7 +47,8 @@ def print_db_last_rows(num_rows=-1):
       db.close()
 
 def read_temperature(hours=24, room='%'):
-      date = datetime.datetime.now() - datetime.timedelta(hours=hours)
+      date_row = datetime.datetime.now() - datetime.timedelta(hours=hours)
+      date = date_row.strftime('%Y-%m-%dT%H:%M:%S')
       try:
             db = sqlite3.connect(DATABASE_NAME)
             cursor = db.execute('\
