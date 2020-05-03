@@ -49,6 +49,7 @@ def plot_temperature():
     return plt
 
 def get_plot_png():
+    matplotlib.use('Agg')
     plt = plot_temperature()
     buf = io.BytesIO()
     plt.savefig(buf, format='png')
