@@ -32,10 +32,11 @@ def get_last_update_id(updates):
 def rooms_keyboard():
     reply_markup = {
         "inline_keyboard": [
-        [{'text':domostats.spanish_name[domostats.KITCHEN],'callback_data':domostats.KITCHEN},
-         {'text':domostats.spanish_name[domostats.BEDROOM],'callback_data':domostats.BEDROOM},
-         {'text':'todas',"callback_data":'todas'},
-         {'text':'histórico','callback_data':'histórico'}]
+        [
+         #{'text':domostats.spanish_name[domostats.KITCHEN],'callback_data':domostats.KITCHEN},
+         #{'text':domostats.spanish_name[domostats.BEDROOM],'callback_data':domostats.BEDROOM},
+         {'text':'ahora mismo','callback_data':'ahora mismo'},
+         {'text':'evolución','callback_data':'evolución'}]
        ]
     }
     return json.dumps(reply_markup)
@@ -77,12 +78,11 @@ def handle_updates(updates):
         text, chat_id = get_text_and_chat_id(update)
         if text == domostats.KITCHEN or text == domostats.BEDROOM:
             send_message(temperature.room_status(text), chat_id)
-            send_image(stats.get_plot_png(text), chat_id)
-        elif text == 'todas':
+        elif text == 'ahora mismo':
             send_message(temperature.all_rooms(), chat_id)
-        elif text == 'histórico':
-            send_message('Temperatura en la cocina:', chat_id)
-        send_message('Elige una opción:', chat_id, rooms_keyboard())
+        elif text == 'evolución':
+            send_image(stats.get_plot_png(), chat_id)
+        send_message('Elige:', chat_id, rooms_keyboard())
 
 def main():
     set_base_url()
