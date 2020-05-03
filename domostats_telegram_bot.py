@@ -77,11 +77,11 @@ def handle_updates(updates):
         text, chat_id = get_text_and_chat_id(update)
         if text == domostats.KITCHEN or text == domostats.BEDROOM:
             send_message(temperature.room_status(text), chat_id)
+            send_image(stats.get_plot_png(text), chat_id)
         elif text == 'todas':
             send_message(temperature.all_rooms(), chat_id)
         elif text == 'histórico':
             send_message('Temperatura en la cocina:', chat_id)
-            send_image(stats.get_plot_png(), chat_id)
         send_message('Elige una opción:', chat_id, rooms_keyboard())
 
 def main():

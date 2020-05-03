@@ -14,11 +14,11 @@ def save_temperature(room):
     temp, time = temperature.get_room_info(room)
     db.add_temperature(room, temp, time)
 
-def plot_temperature():
+def plot_temperature(room):
     y_cord = []
     x_cord = []
 
-    table = db.read_temperature(24, 'kitchen')
+    table = db.read_temperature(24, room)
     for row in table:
         y_cord.append(row[1])
         x_cord.append(row[2])
@@ -35,8 +35,8 @@ def plot_temperature():
     plt.gcf().autofmt_xdate()
     return plt
 
-def get_plot_png():
-    plt = plot_temperature()
+def get_plot_png(room):
+    plt = plot_temperature(room)
     buf = io.BytesIO()
     plt.savefig(buf, format='png')
     buf.seek(0)
