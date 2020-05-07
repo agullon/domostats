@@ -34,17 +34,17 @@ def plot_temperature():
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%H:%M'))
     plt.gca().xaxis.set_major_locator(mdates.HourLocator())
 
-    x, y = get_graph_cords('kitchen')
-    graph_k = plt.plot(x, y, label=domostats.spanish_name['kitchen'])
-    x, y = get_graph_cords('bedroom')
-    graph_b = plt.plot(x, y, label=domostats.spanish_name['bedroom'])
+    x1, y1 = get_graph_cords(domostats.BEDROOM)
+    graph_b = plt.plot(x1, y1, label=domostats.spanish_name[domostats.BEDROOM])
+    x2, y2= get_graph_cords(domostats.KITCHEN)
+    graph_k = plt.plot(x2, y2, label=domostats.spanish_name[domostats.KITCHEN])
 
     graphs = graph_k + graph_b
     labels = [g.get_label() for g in graphs]
     ax.legend(graphs, labels, loc=0)
     plt.legend(loc="upper left")
 
-    plt.ylim(ymin=min(y)-2, ymax=max(y)+2)
+    plt.ylim(ymin=min(y1+y2)-2, ymax=max(y1+y2)+2)
 
     plt.gcf().autofmt_xdate()
     return plt

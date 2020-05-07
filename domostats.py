@@ -9,8 +9,8 @@ spanish_name = {
 }
 
 sensor_id = {
-    KITCHEN: '5',
-    BEDROOM: '14'
+    KITCHEN: '14',
+    BEDROOM: '5'
 }
 
 def get_all_info():
