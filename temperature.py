@@ -2,8 +2,8 @@ import hue_requests, domostats, utils
 import requests, json, time, datetime
 
 TEMP_OFFSET = {
-    domostats.KITCHEN: +1.0,
-    domostats.BEDROOM: -1.5
+    domostats.BEDROOM: +1.0,
+    domostats.KITCHEN: -1.5
 }
 
 def get_room_info(room):
