@@ -6,6 +6,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import matplotlib.cbook as cbook
+from scipy.ndimage.filters import gaussian_filter1d
 import datetime
 import io
 from PIL import Image
@@ -35,9 +36,12 @@ def plot_temperature():
     plt.gca().xaxis.set_major_locator(mdates.HourLocator())
 
     x1, y1 = get_graph_cords(domostats.BEDROOM)
-    graph_b = plt.plot(x1, y1, label=domostats.spanish_name[domostats.BEDROOM])
+    y1_smoth = gaussian_filter1d(y1, sigma=2)
+    graph_b = plt.plot(x1, y1_smoth, label=domostats.spanish_name[domostats.BEDROOM])
+
     x2, y2= get_graph_cords(domostats.KITCHEN)
-    graph_k = plt.plot(x2, y2, label=domostats.spanish_name[domostats.KITCHEN])
+    y2_smoth = gaussian_filter1d(y2, sigma=2)
+    graph_k = plt.plot(x2, y2_smoth, label=domostats.spanish_name[domostats.KITCHEN])
 
     graphs = graph_k + graph_b
     labels = [g.get_label() for g in graphs]
@@ -57,5 +61,5 @@ def get_plot_png():
     return buf.getvalue()
 
 if __name__ == '__main__':
-    plt = plot_temperature('kitchen')
+    plt = plot_temperature()
     plt.show()
