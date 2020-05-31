@@ -62,8 +62,8 @@ def read_temperature(hours=24, room='%'):
       
 if __name__ == '__main__':
       hue_requests.set_endpoint()
-      temp, date = temperature.get_room_info(domostats.BEDROOM)
-      add_temperature(domostats.BEDROOM, temp, date)
+      temp, date = temperature.get_room_info(domostats.HALL)
+      add_temperature(domostats.HALL, temp, date)
       temp, date = temperature.get_room_info(domostats.KITCHEN)
       add_temperature(domostats.KITCHEN, temp, date)
       print_db_last_rows(4)
