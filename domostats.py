@@ -5,7 +5,7 @@ HALL = 'hall'
 
 spanish_name = {
     KITCHEN: 'cocina',
-    HALL: 'HALL'
+    HALL: 'entrada'
 }
 
 sensor_id = {
