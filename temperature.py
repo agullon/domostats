@@ -21,7 +21,7 @@ def all_rooms():
 
 def room_status(room):
     temperature, time = get_room_info(room)
-    return 'En la ' + domostats.spanish_name[room] + ' hay ' + '{:.1f}ºC'.format(temperature)
+    return 'En el ' + domostats.spanish_name[room] + ' hay ' + '{:.1f}ºC'.format(temperature)
 
 if __name__ == '__main__':
     hue_requests.set_endpoint()

@@ -4,8 +4,8 @@ INDOOR = 'indoor'
 OUTDOOR = 'outdoor'
 
 spanish_name = {
-    INDOOR: 'dentro',
-    OUTDOOR: 'fuera'
+    INDOOR: 'interior',
+    OUTDOOR: 'exterior'
 }
 
 sensor_id = {
