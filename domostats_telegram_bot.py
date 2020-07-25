@@ -33,8 +33,8 @@ def rooms_keyboard():
     reply_markup = {
         "inline_keyboard": [
         [
-         #{'text':domostats.spanish_name[domostats.KITCHEN],'callback_data':domostats.KITCHEN},
-         #{'text':domostats.spanish_name[domostats.HALL],'callback_data':domostats.HALL},
+         #{'text':domostats.spanish_name[domostats.INDOOR],'callback_data':domostats.INDOOR},
+         #{'text':domostats.spanish_name[domostats.OUTDOOR],'callback_data':domostats.OUTDOOR},
          {'text':'ahora mismo','callback_data':'ahora mismo'},
          {'text':'evolución','callback_data':'evolución'}]
        ]
@@ -76,7 +76,7 @@ def get_text_and_chat_id(update):
 def handle_updates(updates):
     for update in updates['result']:
         text, chat_id = get_text_and_chat_id(update)
-        if text == domostats.KITCHEN or text == domostats.HALL:
+        if text == domostats.INDOOR or text == domostats.OUTDOOR:
             send_message(temperature.room_status(text), chat_id)
         elif text == 'ahora mismo':
             send_message(temperature.all_rooms(), chat_id)
