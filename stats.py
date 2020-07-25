@@ -35,13 +35,13 @@ def plot_temperature():
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%H:%M'))
     plt.gca().xaxis.set_major_locator(mdates.HourLocator())
 
-    x1, y1 = get_graph_cords(domostats.HALL)
+    x1, y1 = get_graph_cords(domostats.OUTDOOR)
     y1_smoth = gaussian_filter1d(y1, sigma=2)
-    graph_b = plt.plot(x1, y1_smoth, label=domostats.spanish_name[domostats.HALL])
+    graph_b = plt.plot(x1, y1_smoth, label=domostats.spanish_name[domostats.OUTDOOR])
 
-    x2, y2= get_graph_cords(domostats.KITCHEN)
+    x2, y2= get_graph_cords(domostats.INDOOR)
     y2_smoth = gaussian_filter1d(y2, sigma=2)
-    graph_k = plt.plot(x2, y2_smoth, label=domostats.spanish_name[domostats.KITCHEN])
+    graph_k = plt.plot(x2, y2_smoth, label=domostats.spanish_name[domostats.INDOOR])
 
     graphs = graph_k + graph_b
     labels = [g.get_label() for g in graphs]

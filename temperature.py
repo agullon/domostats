@@ -2,8 +2,8 @@ import hue_requests, domostats, utils
 import requests, json, time, datetime
 
 TEMP_OFFSET = {
-    domostats.HALL: +1.0,
-    domostats.KITCHEN: -1.5
+    domostats.INDOOR: -1.5,
+    domostats.OUTDOOR: +1.0
 }
 
 def get_room_info(room):
@@ -15,8 +15,8 @@ def get_room_info(room):
 
 def all_rooms():
     text = 'Ahora mismo:\n'
-    text += room_status(domostats.KITCHEN) + '\n'
-    text += room_status(domostats.HALL) + '\n'
+    text += room_status(domostats.INDOOR) + '\n'
+    text += room_status(domostats.OUTDOOR) + '\n'
     return text
 
 def room_status(room):
