@@ -14,14 +14,14 @@ def get_room_info(room):
     return temperature, time_str
 
 def all_rooms():
-    text = 'Ahora mismo:\n'
+    text = 'Current temperature:\n'
     text += room_status(domostats.INDOOR) + '\n'
-    text += room_status(domostats.OUTDOOR) + '\n'
+    text += room_status(domostats.OUTDOOR)
     return text
 
 def room_status(room):
     temperature, time = get_room_info(room)
-    return 'En el ' + domostats.spanish_name[room] + ' hay ' + '{:.1f}ºC'.format(temperature)
+    return room + ' is ' + '{:.1f}ºC'.format(temperature)
 
 if __name__ == '__main__':
     hue_requests.set_endpoint()
