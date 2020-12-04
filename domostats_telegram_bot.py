@@ -33,10 +33,8 @@ def rooms_keyboard():
     reply_markup = {
         "inline_keyboard": [
         [
-         #{'text':domostats.spanish_name[domostats.INDOOR],'callback_data':domostats.INDOOR},
-         #{'text':domostats.spanish_name[domostats.OUTDOOR],'callback_data':domostats.OUTDOOR},
-         {'text':'ahora mismo','callback_data':'ahora mismo'},
-         {'text':'evolución','callback_data':'evolución'}]
+         {'text':'current','callback_data':'current'},
+         {'text':'history','callback_data':'history'}]
        ]
     }
     return json.dumps(reply_markup)
@@ -78,11 +76,11 @@ def handle_updates(updates):
         text, chat_id = get_text_and_chat_id(update)
         if text == domostats.INDOOR or text == domostats.OUTDOOR:
             send_message(temperature.room_status(text), chat_id)
-        elif text == 'ahora mismo':
+        elif text == 'current':
             send_message(temperature.all_rooms(), chat_id)
-        elif text == 'evolución':
+        elif text == 'history':
             send_image(stats.get_plot_png(), chat_id)
-        send_message('Elige:', chat_id, rooms_keyboard())
+        send_message('Choose:', chat_id, rooms_keyboard())
 
 def main():
     set_base_url()
