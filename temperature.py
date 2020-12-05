@@ -21,7 +21,7 @@ def all_rooms():
 
 def room_status(room):
     temperature, time = get_room_info(room)
-    return room + ' is ' + '{:.1f}ºC'.format(temperature) + ' at ' + utils.date_format(utils.date_diff_hours(time), '%H:%M:%S  %B %d, %Y')
+    return room + ' is ' + '{:.1f}ºC'.format(temperature) + ' at ' + utils.date_format(time, '%H:%M:%S  %B %d, %Y')
 
 if __name__ == '__main__':
     hue_requests.set_endpoint()
