@@ -1,16 +1,22 @@
 import hue_requests, temperature
 
-INDOOR = 'indoor'
-OUTDOOR = 'outdoor'
+KITCHEN = 'kitchen'
+OUTDOOR = 'street'
+HALL = 'hall'
+MAIN_ROOM = 'main room'
 
 spanish_name = {
-    INDOOR: 'interior',
-    OUTDOOR: 'exterior'
+    KITCHEN: 'interior',
+    OUTDOOR: 'exterior',
+    HALL: 'hall',
+    MAIN_ROOM: 'habitación'
 }
 
 sensor_id = {
-    INDOOR: '14',
-    OUTDOOR: '5'
+    KITCHEN: '14',
+    OUTDOOR: '5',
+    HALL: '45',
+    MAIN_ROOM: '52'
 }
 
 def get_all_info():
