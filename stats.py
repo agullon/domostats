@@ -2,7 +2,7 @@ import temperature, domostats
 import database as db
 import numpy as np
 import matplotlib
-matplotlib.use('Agg')
+#matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import matplotlib.cbook as cbook
@@ -60,8 +60,9 @@ def plot_temperature():
     ax.legend(graphs, labels, loc=0)
     plt.legend(loc='lower center', bbox_to_anchor=(0,1,1,0), ncol=2)
 
-    y_all = y1_smoth + y5_smoth
-    plt.ylim(ymin=min(y_all)-2, ymax=max(y_all)+2)
+    y_all = y1+y2+y3+y4
+    plt.ylim(bottom = min(y_all)-2)
+    plt.ylim(top = max(y_all)+2)
 
     plt.gcf().autofmt_xdate()
     return plt
